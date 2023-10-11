@@ -4,6 +4,10 @@ class ProjectsController < ApplicationController
   # GET /projects or /projects.json
   def index
     @projects = Project.all
+    # redirect_to root_url, notice: "You have successfully logged out."
+    # redirect_to root_url, alert: "You're stuck here!"
+    flash.keep
+    render json: @projects
   end
 
   # GET /projects/1 or /projects/1.json
@@ -50,11 +54,8 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1 or /projects/1.json
   def destroy
     @project.destroy
-
-    respond_to do |format|
-      format.html { redirect_to projects_url, notice: "Project was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    flash[:notice]="you have successfully deleted project"
+    redirect_to root_path
   end
 
   private
@@ -67,4 +68,5 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:name, :description)
     end
+    
 end
